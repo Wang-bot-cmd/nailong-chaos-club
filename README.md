@@ -4,6 +4,8 @@
 
 **[公网试玩](https://Wang-bot-cmd.github.io/nailong-chaos-club/)**
 
+EdgeOne 镜像已完成上传，目前等待绑定自定义域名。平台默认域名限制中国大陆访问，因此正式镜像地址确认可访问后再补充；现有 GitHub Pages 地址继续保留。
+
 ## 全息科幻版 2.0
 
 - 全息扫描地台、轨道能量环、漂浮晶体和星尘。
