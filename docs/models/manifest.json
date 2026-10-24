@@ -5,7 +5,7 @@
     "input_faces": 45288,
     "faces": 66636,
     "vertices": 38387,
-    "bytes": 2029240,
+    "bytes": 669660,
     "bounds": [
       [
         -1.1294060945510864,
@@ -25,7 +25,8 @@
       "pupil": "#050706",
       "belly": "#ecd19e"
     },
-    "color_source": "User reference photograph, sRGB samples, embedded vertex colors"
+    "color_source": "User reference photograph, sRGB samples, embedded vertex colors",
+    "compression": "EXT_meshopt_compression; lossless position, color and index data"
   },
   {
     "key": "shock",
@@ -33,7 +34,7 @@
     "input_faces": 1924562,
     "faces": 63561,
     "vertices": 36256,
-    "bytes": 1924136,
+    "bytes": 652768,
     "bounds": [
       [
         -1.5980640649795532,
@@ -53,7 +54,8 @@
       "pupil": "#050706",
       "belly": "#ecd19e"
     },
-    "color_source": "User reference photograph, sRGB samples, embedded vertex colors"
+    "color_source": "User reference photograph, sRGB samples, embedded vertex colors",
+    "compression": "EXT_meshopt_compression; lossless position, color and index data"
   },
   {
     "key": "egg",
@@ -61,7 +63,7 @@
     "input_faces": 71394,
     "faces": 46527,
     "vertices": 25012,
-    "bytes": 1359928,
+    "bytes": 407872,
     "bounds": [
       [
         -1.423366665840149,
@@ -81,7 +83,8 @@
       "pupil": "#050706",
       "belly": "#ecd19e"
     },
-    "color_source": "User reference photograph, sRGB samples, embedded vertex colors"
+    "color_source": "User reference photograph, sRGB samples, embedded vertex colors",
+    "compression": "EXT_meshopt_compression; lossless position, color and index data"
   },
   {
     "key": "frog",
@@ -89,7 +92,7 @@
     "input_faces": 1469214,
     "faces": 50664,
     "vertices": 27716,
-    "bytes": 1496092,
+    "bytes": 469388,
     "bounds": [
       [
         -1.0421241521835327,
@@ -109,7 +112,8 @@
       "pupil": "#050706",
       "belly": "#ecd19e"
     },
-    "color_source": "User reference photograph, sRGB samples, embedded vertex colors"
+    "color_source": "User reference photograph, sRGB samples, embedded vertex colors",
+    "compression": "EXT_meshopt_compression; lossless position, color and index data"
   },
   {
     "key": "tongue",
@@ -117,7 +121,7 @@
     "input_faces": 355988,
     "faces": 64251,
     "vertices": 36805,
-    "bytes": 1949996,
+    "bytes": 704112,
     "bounds": [
       [
         -1.8894217014312744,
@@ -137,6 +141,7 @@
       "pupil": "#050706",
       "belly": "#ecd19e"
     },
-    "color_source": "User reference photograph, sRGB samples, embedded vertex colors"
+    "color_source": "User reference photograph, sRGB samples, embedded vertex colors",
+    "compression": "EXT_meshopt_compression; lossless position, color and index data"
   }
 ]
