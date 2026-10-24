@@ -67,8 +67,8 @@ export class GameRenderer {
   readonly touchDevice = matchMedia('(pointer: coarse)').matches;
   quality = true; reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
   constructor(canvas: HTMLCanvasElement) {
-    this.renderer = new THREE.WebGLRenderer({ canvas, antialias: !this.touchDevice, alpha: false, powerPreference: 'high-performance' });
-    this.renderer.setPixelRatio(Math.min(devicePixelRatio, this.touchDevice ? 1.25 : 1.65));
+    this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false, powerPreference: 'high-performance' });
+    this.renderer.setPixelRatio(Math.min(devicePixelRatio, this.touchDevice ? 2 : 1.65));
     this.renderer.shadowMap.enabled = !this.touchDevice; this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     this.renderer.info.autoReset = false;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping; this.renderer.toneMappingExposure = 1.25;
@@ -91,7 +91,7 @@ export class GameRenderer {
     for (let i = 0; i < av.length; i += 3) { av[i] = (Math.random() - .5) * 65; av[i + 1] = Math.random() * 20; av[i + 2] = (Math.random() - .5) * 50; }
     aGeo.setAttribute('position', new THREE.BufferAttribute(av, 3)); this.ambientPoints = new THREE.Points(aGeo, new THREE.PointsMaterial({ color: 0xc7a9ff, size: .045, transparent: true, opacity: .45, depthWrite: false })); this.scene.add(this.ambientPoints);
     this.labelMaterials = ['加班', 'KPI', '周一', '早八', '内耗'].map(t => new THREE.SpriteMaterial({ map: textTexture(t, '#251a36', '#f0d2ff'), depthWrite: false }));
-    const renderTarget = new THREE.WebGLRenderTarget(innerWidth, innerHeight, { type: THREE.HalfFloatType, samples: this.touchDevice ? 0 : 4 });
+    const renderTarget = new THREE.WebGLRenderTarget(innerWidth, innerHeight, { type: THREE.HalfFloatType, samples: Math.min(this.renderer.capabilities.maxSamples, this.touchDevice ? 2 : 4) });
     this.composer = new EffectComposer(this.renderer, renderTarget); this.composer.addPass(new RenderPass(this.scene, this.camera));
     this.bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth / 2, innerHeight / 2), .38, .5, 1.3); this.composer.addPass(this.bloom); this.composer.addPass(this.distortion); this.composer.addPass(new OutputPass());
     this.resize(); window.addEventListener('resize', () => this.resize()); window.visualViewport?.addEventListener('resize', () => this.resize());
@@ -169,9 +169,10 @@ export class GameRenderer {
   }
   resize() {
     const w = innerWidth, h = innerHeight; this.viewport = { width: w, height: h }; this.camera.aspect = w / h; this.camera.updateProjectionMatrix(); this.renderer.setSize(w, h);
-    this.composer.setPixelRatio(this.renderer.getPixelRatio() * (this.touchDevice ? .7 : .85)); this.composer.setSize(w, h); this.distortion.uniforms.uAspect.value = w / h;
+    // Preserve scene detail through post-processing; bloom already uses smaller buffers.
+    this.composer.setPixelRatio(this.renderer.getPixelRatio() * (this.touchDevice ? 1 : .85)); this.composer.setSize(w, h); this.distortion.uniforms.uAspect.value = w / h;
   }
-  setQuality(high: boolean) { this.quality = high; this.models.forEach(g => g.traverse(o => { if (o instanceof THREE.Mesh && o.material instanceof THREE.ShaderMaterial) o.material.uniforms.uComposer.value = high ? 1 : 0; })); this.renderer.setPixelRatio(high ? Math.min(devicePixelRatio, this.touchDevice ? 1.25 : 1.65) : Math.min(devicePixelRatio, 1)); this.renderer.shadowMap.enabled = high && !this.touchDevice; this.resize(); }
+  setQuality(high: boolean) { this.quality = high; this.models.forEach(g => g.traverse(o => { if (o instanceof THREE.Mesh && o.material instanceof THREE.ShaderMaterial) o.material.uniforms.uComposer.value = high ? 1 : 0; })); this.renderer.setPixelRatio(Math.min(devicePixelRatio, this.touchDevice ? 2 : high ? 1.65 : 1)); this.renderer.shadowMap.enabled = high && !this.touchDevice; this.resize(); }
   private makeEntity(e: Entity) {
     const pooled = this.entityPool.findIndex(g => g.userData.kind === e.kind && g.userData.flavor === e.flavor);
     if (pooled >= 0) { const g = this.entityPool.splice(pooled, 1)[0]; g.visible = true; this.scene.add(g); this.entityViews.set(e.id, g); return g; }
@@ -305,5 +306,5 @@ export class GameRenderer {
     if (this.quality) this.composer.render(); else this.renderer.render(this.scene, this.camera);
     this.stats.calls = this.renderer.info.render.calls; this.stats.triangles = this.renderer.info.render.triangles;
   }
-  diagnostics() { return { models: [...this.models.keys()], selected: this.selected, drawCalls: this.stats.calls, triangles: this.stats.triangles, geometries: this.renderer.info.memory.geometries, particles: this.particles.length, pooledEntities: this.entityPool.length, quality: this.quality, pixelRatio: this.renderer.getPixelRatio(), touch: this.touchDevice }; }
+  diagnostics() { return { models: [...this.models.keys()], selected: this.selected, drawCalls: this.stats.calls, triangles: this.stats.triangles, geometries: this.renderer.info.memory.geometries, particles: this.particles.length, pooledEntities: this.entityPool.length, quality: this.quality, pixelRatio: this.renderer.getPixelRatio(), sceneWidth: this.quality ? this.composer.readBuffer.width : this.renderer.domElement.width, sceneHeight: this.quality ? this.composer.readBuffer.height : this.renderer.domElement.height, touch: this.touchDevice }; }
 }

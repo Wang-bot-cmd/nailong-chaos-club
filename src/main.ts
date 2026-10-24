@@ -16,12 +16,19 @@ let memeClock = 0; let captionClock = 5; let readyAnnounced = false; let lowFram
 let hudClock = 0; let attackHeld = false; let fixedTime = 0; let qualityMode: 'auto' | 'high' | 'eco' = 'auto';
 const FIXED_STEP = 1 / 60;
 const keys = new Set<string>(); const joystick: Input = { x: 0, z: 0 };
+let joyId: number | null = null; let attackId: number | null = null;
 let best = 0; try { best = Number(localStorage.getItem('nailong-best-v1')) || 0; } catch { /* Private mode still supports play. */ }
 const captions = ['今天的 KPI：快乐。', '只要我够圆，生活就拿捏不了我。', '奶茶全糖，人生免苦。', '不是我不努力，是奶龙在加载。', '精神状态良好，偶尔发疯。', '工资没涨，快乐值先涨。', '不听不听，奶龙念经。'];
 const chat = ['这就是传说中的奶龙步？', '不是，哥们你真创啊', '奶门！', '你小子有点奶东西', '好圆润的精神状态', '不愧是我电子同事', '班味已经被创飞', '呱！有挂！', '建议全公司推广'];
 
 function input(): Input { return { x: Math.max(-1, Math.min(1, (Number(keys.has('KeyD') || keys.has('ArrowRight')) - Number(keys.has('KeyA') || keys.has('ArrowLeft'))) + joystick.x)), z: Math.max(-1, Math.min(1, (Number(keys.has('KeyS') || keys.has('ArrowDown')) - Number(keys.has('KeyW') || keys.has('ArrowUp'))) + joystick.z)) }; }
-function clearInput() { keys.clear(); joystick.x = joystick.z = 0; attackHeld = false; $('stick').style.transform = ''; }
+function clearInput() {
+  keys.clear(); joystick.x = joystick.z = 0; attackHeld = false;
+  const captures = [['joystick', joyId], ['touch-bonk', attackId]] as const;
+  joyId = attackId = null;
+  for (const [id, pointer] of captures) if (pointer !== null && $(id).hasPointerCapture(pointer)) $(id).releasePointerCapture(pointer);
+  $('stick').style.transform = '';
+}
 function haptic(duration: number) { if (!view.reducedMotion && document.visibilityState === 'visible') navigator.vibrate?.(duration); }
 function toast(text: string) { clearTimeout(toastTimer); $('toast').textContent = text; $('toast').classList.add('visible'); toastTimer = window.setTimeout(() => $('toast').classList.remove('visible'), 2500); }
 function soundButton() { $('sound').classList.toggle('muted', !sound.enabled); $('sound').setAttribute('aria-label', sound.enabled ? '关闭声音' : '开启声音'); $('sound').title = sound.enabled ? '关闭声音' : '开启声音'; }
@@ -38,7 +45,7 @@ function updateHud() {
   $('touch-dash').style.opacity = sim.dashCooldown > 0 ? '.4' : '1';
   $('touch-dash').style.setProperty('--cooldown', `${Math.min(100, sim.dashCooldown / 1.05 * 100)}%`);
   $('touch-dash').setAttribute('aria-label', sim.dashCooldown > 0 ? '闪现冷却中' : '闪现就绪');
-  if (sim.energy >= 100 && !readyAnnounced && sim.phase === 'playing') { readyAnnounced = true; toast('精神状态已拉满！按 Q 释放发疯大招'); sound.play('collect'); }
+  if (sim.energy >= 100 && !readyAnnounced && sim.phase === 'playing') { readyAnnounced = true; toast(view.touchDevice ? '能量已满！点底部释放大招' : '精神状态已拉满！按 Q 释放发疯大招'); sound.play('collect'); }
   if (sim.energy < 100) readyAnnounced = false;
 }
 function start() {
@@ -76,7 +83,7 @@ function help() {
 function settings() {
   if (modalOpen) return;
   const from = sim.phase; if (from === 'playing') sim.phase = 'paused';
-  showModal(`<div class="eyebrow">NEURAL ENGINE / 舞台调校</div><h2 id="modal-title">给奶龙配点科技。</h2><p>自动模式会在持续掉帧时降低开销。手机默认限制渲染分辨率，保留全息地台、能量护盾和闪现拖尾。</p><div class="quality-options"><button data-quality="auto">自适应<small>流畅与特效平衡</small></button><button data-quality="high">超频<small>辉光与空间扭曲</small></button><button data-quality="eco">轻量<small>减少发热与耗电</small></button></div><p id="quality-status"></p><div class="modal-actions"><button id="fullscreen" class="secondary-button">全屏沉浸</button><button id="settings-close" class="primary-button">就这样 ↗</button></div>`, () => {
+  showModal(`<div class="eyebrow">NEURAL ENGINE / 舞台调校</div><h2 id="modal-title">给奶龙配点科技。</h2><p>手机默认使用高清画面。自动模式会在持续掉帧时减少辉光与空间扭曲，保留画面清晰度、全息地台和能量护盾。</p><div class="quality-options"><button data-quality="auto">自适应<small>流畅与特效平衡</small></button><button data-quality="high">超频<small>辉光与空间扭曲</small></button><button data-quality="eco">轻量<small>减少发热与耗电</small></button></div><p id="quality-status"></p><div class="modal-actions"><button id="fullscreen" class="secondary-button">全屏沉浸</button><button id="settings-close" class="primary-button">就这样 ↗</button></div>`, () => {
     function refresh() { document.querySelectorAll<HTMLButtonElement>('[data-quality]').forEach(b => b.classList.toggle('selected', b.dataset.quality === qualityMode)); $('quality-status').textContent = `当前：${view.quality ? '全特效' : '轻量'} · ${view.reducedMotion ? '已遵循减少动态效果设置' : '科幻动效已开启'}`; }
     document.querySelectorAll<HTMLButtonElement>('[data-quality]').forEach(b => b.onclick = () => { qualityMode = b.dataset.quality as typeof qualityMode; autoQuality = false; lowFrames = 0; view.setQuality(qualityMode !== 'eco'); refresh(); }); refresh();
     $('settings-close').onclick = () => { hideModal(); if (from === 'playing') sim.phase = 'playing'; };
@@ -109,7 +116,10 @@ function processEvents() {
   sim.events = [];
 }
 
-$('start').onclick = start; $('help').onclick = help; $('pause').onclick = pause; $('ultimate').onclick = ultimate;
+$('start').onclick = start; $('help').onclick = help; $('pause').onclick = pause;
+// Secondary touch pointers do not reliably produce click events during a drag.
+$('ultimate').addEventListener('pointerdown', e => { if (e.button !== 0) return; e.preventDefault(); ultimate(); });
+$('ultimate').onclick = e => { if (e.detail === 0) ultimate(); }; // Keyboard / assistive activation.
 $('settings').onclick = settings;
 document.querySelector<HTMLAnchorElement>('.brand')!.onclick = e => { e.preventDefault(); if (loaded) home(); };
 $('sound').onclick = () => { $('sound').dataset.touched = '1'; sound.setEnabled(!sound.enabled); soundButton(); toast(sound.enabled ? '声波已接通，奶龙开始蹦迪。' : '静音摸鱼，懂的都懂。'); };
@@ -139,9 +149,8 @@ window.addEventListener('keyup', e => keys.delete(e.code));
 $('world').addEventListener('pointerdown', e => { if (sim.phase !== 'playing' || modalOpen || e.pointerType === 'touch') return; if (e.button === 2) sim.dash(input()); else sim.attack(); });
 $('world').addEventListener('contextmenu', e => e.preventDefault());
 $('touch-dash').addEventListener('pointerdown', e => { e.preventDefault(); sim.dash(input()); });
-$('touch-bonk').addEventListener('pointerdown', e => { e.preventDefault(); $('touch-bonk').setPointerCapture(e.pointerId); attackHeld = true; sim.attack(); });
-for (const type of ['pointerup', 'pointercancel', 'lostpointercapture']) $('touch-bonk').addEventListener(type, () => attackHeld = false);
-let joyId: number | null = null;
+$('touch-bonk').addEventListener('pointerdown', e => { e.preventDefault(); if (attackId !== null) return; attackId = e.pointerId; $('touch-bonk').setPointerCapture(e.pointerId); attackHeld = true; sim.attack(); });
+for (const type of ['pointerup', 'pointercancel', 'lostpointercapture']) $('touch-bonk').addEventListener(type, event => { if ((event as PointerEvent).pointerId === attackId) { attackId = null; attackHeld = false; } });
 function moveStick(e: PointerEvent) { const r = $('joystick').getBoundingClientRect(), dx = e.clientX - (r.x + r.width / 2), dy = e.clientY - (r.y + r.height / 2); const radius = r.width * .32; const n = Math.max(1, Math.hypot(dx, dy) / radius); const deadzone = Math.hypot(dx, dy) < 5; joystick.x = deadzone ? 0 : dx / n / radius; joystick.z = deadzone ? 0 : dy / n / radius; $('stick').style.transform = `translate(${dx / n}px,${dy / n}px)`; }
 $('joystick').addEventListener('pointerdown', e => { e.preventDefault(); if (joyId !== null) return; joyId = e.pointerId; $('joystick').setPointerCapture(e.pointerId); moveStick(e); });
 $('joystick').addEventListener('pointermove', e => { if (e.pointerId === joyId) moveStick(e); });
