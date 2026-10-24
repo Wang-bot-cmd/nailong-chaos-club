@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
@@ -137,7 +138,7 @@ export class GameRenderer {
     const ready = this.models.get(key); if (ready) return Promise.resolve(ready);
     const pending = this.pendingModels.get(key); if (pending) return pending;
     const promise = (async () => {
-      const loader = new GLTFLoader();
+      const loader = new GLTFLoader().setMeshoptDecoder(MeshoptDecoder);
       const embedded = (window as unknown as { NAILONG_MODELS?: Record<string, string> }).NAILONG_MODELS;
       const gltf = await loader.loadAsync(embedded?.[key] ?? `./models/${key}.glb`);
       gltf.scene.traverse(o => {
