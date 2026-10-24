@@ -1,0 +1,142 @@
+[
+  {
+    "key": "hands",
+    "source": "揣手奶龙_stls.zip",
+    "input_faces": 45288,
+    "faces": 66636,
+    "vertices": 38387,
+    "bytes": 2029240,
+    "bounds": [
+      [
+        -1.1294060945510864,
+        -1.4952212705459584e-17,
+        -1.223276972770691
+      ],
+      [
+        1.1294060945510864,
+        3.5999999046325684,
+        1.223276972770691
+      ]
+    ],
+    "palette": {
+      "body": "#f5c631",
+      "hands_feet": "#313536",
+      "iris": "#419755",
+      "pupil": "#050706",
+      "belly": "#ecd19e"
+    },
+    "color_source": "User reference photograph, sRGB samples, embedded vertex colors"
+  },
+  {
+    "key": "shock",
+    "source": "奶龙惊讶_stls.zip",
+    "input_faces": 1924562,
+    "faces": 63561,
+    "vertices": 36256,
+    "bytes": 1924136,
+    "bounds": [
+      [
+        -1.5980640649795532,
+        -3.521607462116348e-19,
+        -0.9455914497375488
+      ],
+      [
+        1.5980640649795532,
+        3.5999999046325684,
+        0.9455914497375488
+      ]
+    ],
+    "palette": {
+      "body": "#f5c631",
+      "hands_feet": "#313536",
+      "iris": "#419755",
+      "pupil": "#050706",
+      "belly": "#ecd19e"
+    },
+    "color_source": "User reference photograph, sRGB samples, embedded vertex colors"
+  },
+  {
+    "key": "egg",
+    "source": "奶蛋_stls.zip",
+    "input_faces": 71394,
+    "faces": 46527,
+    "vertices": 25012,
+    "bytes": 1359928,
+    "bounds": [
+      [
+        -1.423366665840149,
+        7.53075817580117e-18,
+        -1.6064324378967285
+      ],
+      [
+        1.423366665840149,
+        3.5999999046325684,
+        1.6064324378967285
+      ]
+    ],
+    "palette": {
+      "body": "#f5c631",
+      "hands_feet": "#313536",
+      "iris": "#419755",
+      "pupil": "#050706",
+      "belly": "#ecd19e"
+    },
+    "color_source": "User reference photograph, sRGB samples, embedded vertex colors"
+  },
+  {
+    "key": "frog",
+    "source": "奶蛙.stl",
+    "input_faces": 1469214,
+    "faces": 50664,
+    "vertices": 27716,
+    "bytes": 1496092,
+    "bounds": [
+      [
+        -1.0421241521835327,
+        -3.732565494745097e-17,
+        -0.9049310088157654
+      ],
+      [
+        1.0421241521835327,
+        3.5999999046325684,
+        0.9049310088157654
+      ]
+    ],
+    "palette": {
+      "body": "#f5c631",
+      "hands_feet": "#313536",
+      "iris": "#419755",
+      "pupil": "#050706",
+      "belly": "#ecd19e"
+    },
+    "color_source": "User reference photograph, sRGB samples, embedded vertex colors"
+  },
+  {
+    "key": "tongue",
+    "source": "伸舌头奶龙.stl",
+    "input_faces": 355988,
+    "faces": 64251,
+    "vertices": 36805,
+    "bytes": 1949996,
+    "bounds": [
+      [
+        -1.8894217014312744,
+        6.43543910947326e-18,
+        -1.3611221313476562
+      ],
+      [
+        1.8894217014312744,
+        3.5999999046325684,
+        1.3611221313476562
+      ]
+    ],
+    "palette": {
+      "body": "#f5c631",
+      "hands_feet": "#313536",
+      "iris": "#419755",
+      "pupil": "#050706",
+      "belly": "#ecd19e"
+    },
+    "color_source": "User reference photograph, sRGB samples, embedded vertex colors"
+  }
+]

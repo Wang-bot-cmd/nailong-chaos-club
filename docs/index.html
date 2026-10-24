@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/><meta name="theme-color" content="#030a16"/><meta name="apple-mobile-web-app-capable" content="yes"/><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='32' fill='%23dcff42'/%3E%3Ctext x='15' y='46' font-family='Arial' font-size='43' font-weight='bold' fill='%23111018'%3En.%3C/text%3E%3C/svg%3E"/><meta name="description" content="奶龙发疯事务所——使用真实 3D 奶龙模型的荒诞街机小游戏。躲开班味，抢走奶茶，发疯就对了。"/><title>奶龙发疯事务所 · CHAOS CLUB</title>  <script type="module" crossorigin src="./assets/index-B_fXVftr.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-DKGaIaSE.css">
+</head>
+<body>
+  <canvas id="world" aria-label="奶龙 3D 游戏舞台"></canvas>
+  <div id="vignette"></div><div id="hit-flash"></div><div id="fx-text" aria-live="polite"></div>
+  <header class="masthead"><a class="brand" href="./" aria-label="奶龙发疯事务所首页"><span class="brand-mark">n.</span><span>奶龙发疯事务所<small>NAILONG CHAOS CLUB</small></span></a><div class="header-actions"><span class="live-dot"></span><span class="edition">全息宇宙 · 精神超频</span><button class="icon-button" id="sound" aria-label="开启声音" title="开启声音">♪<i></i></button><button class="icon-button" id="settings" aria-label="画质与全屏" title="画质与全屏">⚙</button><button class="icon-button" id="help" aria-label="玩法说明" title="玩法说明">?</button></div></header>
+  <main id="intro">
+    <div class="intro-copy"><div class="eyebrow"><span>SYS. 2077</span> 精神状态已突破次元 <b>↗</b></div>
+    <h1>生活太苦？<br/><span class="title-acid">发个奶疯。</span><span class="title-star">✳</span></h1>
+    <p class="intro-desc">班可以不上，奶茶不能不喝。<br/>带上你的奶龙，把不开心全部创飞。</p>
+    <div class="start-row"><button id="start" class="primary-button" disabled><span id="start-label">奶龙正在热身</span><span class="button-arrow">↗</span></button><div class="session-note">一局 60 秒<br/><strong>快乐不讲道理</strong></div></div>
+    <div class="intro-control"><span>W A S D</span> 移动 <i>·</i> <span>空格</span> 闪现 <i>·</i> <span>点击</span> 创飞</div>
+    </div>
+    <div class="scene-tag"><span class="tiny-label">今日精神状态</span><strong id="mood-label">啊？还要上班啊？</strong><div class="mood-line"><span></span><small>100% 纯正奶龙</small><b>↙</b></div></div>
+    <div class="floating-label label-one">拒绝内耗 <span>✦</span></div><div class="floating-label label-two">看什么看，没见过天才？</div>
+    <div class="character-dock"><div class="dock-heading"><span>选一只精神搭子</span><small>CHOOSE YOUR CHAOS</small></div><div class="characters" role="group" aria-label="选择奶龙造型"><button class="character" data-char="hands"><span>01</span>揣手奶龙<i>摆烂本龙</i></button><button class="character selected" data-char="shock"><span>02</span>震惊奶龙<i>这合理吗</i></button><button class="character" data-char="tongue"><span>03</span>吐舌奶龙<i>略略略略</i></button><button class="character" data-char="egg"><span>04</span>奶蛋<i>脆皮大学生</i></button><button class="character" data-char="frog"><span>05</span>奶蛙<i>呱到你了</i></button></div></div>
+    <div class="issue">HOLOGRAPHIC ARCADE // V2.0 <span>NEURAL LINK ACTIVE</span></div>
+  </main>
+  <section id="hud" hidden>
+    <div class="hud-main"><div class="score-block"><small>快乐值</small><strong id="score">000000</strong></div><div class="hud-divider"></div><div class="time-block"><small>拒绝班味倒计时</small><strong id="time">60<span>s</span></strong></div><button id="pause" class="icon-button" aria-label="暂停">Ⅱ</button></div>
+    <div class="health-block"><span id="hearts">♥ ♥ ♥</span><small id="mission">抢奶茶 +100 · 创飞班味 +150</small></div>
+    <div class="combo-block" id="combo-block"><strong id="combo">0</strong><span>连击<br/><b>COMBO</b></span></div>
+    <div id="game-caption">今天的 KPI：快乐。</div>
+    <div class="bottom-hud"><div class="control-legend"><span>WASD <i>移动</i></span><span>SPACE <i>闪现</i></span><span>点击 <i>创飞</i></span></div><button id="ultimate" class="ultimate-button" aria-label="释放发疯大招"><div id="energy-fill"></div><span>✳</span><div><strong id="ultimate-label">发疯蓄力中</strong><small id="energy-label">Q / 0%</small></div></button></div>
+    <div id="touch-controls"><div id="joystick" aria-label="拖动控制移动"><div id="stick"></div></div><div class="touch-actions"><button id="touch-dash">闪现</button><button id="touch-bonk">创飞</button></div></div>
+  </section>
+  <div id="toast" role="status"></div>
+  <div id="modal-backdrop" hidden><section class="modal" id="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title"></section></div>
+  <div id="loading"><span class="loading-mark">n.</span><strong>奶龙正在穿越互联网</strong><div class="loading-track"><i id="loading-progress"></i></div><small id="loading-note">正在建立奶龙全息连接…</small></div>
+</body></html>
