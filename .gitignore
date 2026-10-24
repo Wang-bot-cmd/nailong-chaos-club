@@ -7,6 +7,9 @@ dist/
 .DS_Store
 .edgeone/
 .netlify/
+.wrangler/
+.dev.vars
+.dev.vars.*
 
 # Tencent Cloud EdgeOne
 .env
