@@ -5,6 +5,10 @@ import { GameRenderer, CHARACTERS } from './render';
 import { Sound } from './audio';
 
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
+// Keep the game's controls above a hosting provider's footer badge.
+function syncHostFooter() { document.body.classList.toggle('has-host-footer', !!document.getElementById('nl-badge-frame')); }
+new MutationObserver(syncHostFooter).observe(document.body, { childList: true });
+syncHostFooter();
 const sim = new Simulation(); const sound = new Sound();
 let view: GameRenderer; let selected = 'shock'; let loaded = false; let last = performance.now();
 let toastTimer = 0; let modalReturn: 'intro' | 'playing' | 'paused' | 'result' = 'intro'; let modalOpen = false;
