@@ -2,9 +2,11 @@
 
 一个使用五款 3D 奶龙模型制作的 60 秒恶搞街机小游戏。
 
-**[公网试玩](https://Wang-bot-cmd.github.io/nailong-chaos-club/)**
+**[公网试玩 · Netlify](https://nailong-chaos-club.netlify.app/)** · [GitHub Pages 备用地址](https://Wang-bot-cmd.github.io/nailong-chaos-club/)
 
-EdgeOne 镜像已完成上传，目前等待绑定自定义域名。平台默认域名限制中国大陆访问，因此正式镜像地址确认可访问后再补充；现有 GitHub Pages 地址继续保留。
+Netlify 使用免费套餐及平台提供的网址，无需购买域名，自动充值未开启。免费套餐有月度用量额度，额度耗尽可能暂停服务。不同地区、运营商的访问速度存在差异。`netlify.toml` 指定发布 `docs` 中的预构建文件。
+
+EdgeOne 镜像已完成上传，其默认域名限制中国大陆访问，需要自定义域名后才适合国内分享。
 
 ## 全息科幻版 2.0
 
