@@ -2,7 +2,9 @@
 
 一个使用五款 3D 奶龙模型制作的 60 秒恶搞街机小游戏。
 
-**[公网试玩 · Netlify](https://nailong-chaos-club.netlify.app/)** · [GitHub Pages 备用地址](https://Wang-bot-cmd.github.io/nailong-chaos-club/)
+**[公网试玩 · Cloudflare Pages](https://nailong-chaos-club.pages.dev/)** · [Netlify 备用地址](https://nailong-chaos-club.netlify.app/) · [GitHub Pages 备用地址](https://Wang-bot-cmd.github.io/nailong-chaos-club/)
+
+Cloudflare Pages 镜像使用免费静态托管和平台自带域名，无需购买域名。2026-10-24 当前网络三轮实测，游戏脚本下载约 1–2 秒、默认模型约 4 秒，比 Netlify 更快；这是单一网络的结果，不代表全国访问速度。已验证电脑游玩、手机横竖屏、多指触控及五款模型。后续可在项目目录执行 `wrangler pages deploy docs --project-name nailong-chaos-club --branch main` 更新镜像；当前为直接上传，未连接 GitHub 自动部署。
 
 Netlify 使用免费套餐及平台提供的网址，无需购买域名，自动充值未开启。免费套餐有月度用量额度，额度耗尽可能暂停服务。不同地区、运营商的访问速度存在差异。`netlify.toml` 指定发布 `docs` 中的预构建文件。
 
