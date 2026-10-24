@@ -1,0 +1,25 @@
+{
+  "installCommand": "node -e \"console.log('Using prebuilt static game files')\"",
+  "buildCommand": "node -e \"require('node:fs').accessSync('docs/index.html')\"",
+  "outputDirectory": "docs",
+  "headers": [
+    {
+      "source": "/assets/*",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/models/*",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
+      ]
+    },
+    {
+      "source": "/",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
+      ]
+    }
+  ]
+}
